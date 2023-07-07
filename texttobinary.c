@@ -1,27 +1,43 @@
-#include<stdio.h>
+#include <stdio.h>
 
-void textToBinary(const char* binaryFile,const char* textFile)
-{
-    FILE* binaryPtr = fopen(binaryFile,"wb");
-    FILE* textPtr = fopen(textFile,"r");
-    if(binaryFile ==NULL || textFile ==NULL)
-    {
-        printf("error in opening file\n");
+void decimalToBinary(int number, FILE* binaryFile) {
+    if (number == 0) {
         return;
     }
-    int num;
-    while(fscanf(textPtr,"%d",&num) !=EOF)
-    {
-        fwrite(&num,sizeof(int),1,binaryPtr);
+
+    int binary[32]; // Assuming 32-bit representation
+    int index = 0;
+
+    while (number > 0) {
+        binary[index] = number % 2;
+        number /= 2;
+        index++;
     }
-    fclose(binaryPtr);
-    fclose(textPtr);
-    printf("text file converted to binary");
+
+    for (int i = index - 1; i >= 0; i--) {
+        fwrite(&binary[i], sizeof(int), 1, binaryFile);
+    }
 }
-int main()
-{
-    const char* binaryFile = "ouput.bin";
-    const char* textFile = "input1.txt";
-    textToBinary(binaryFile,textFile);
+
+int main() {
+    FILE* inputFile = fopen("input.txt", "r");
+    FILE* binaryFile = fopen("binary.bin", "wb");
+
+    if (inputFile == NULL || binaryFile == NULL) {
+        printf("Error opening files.\n");
+        return 1;
+    }
+
+    int decimalNumber;
+
+    while (fscanf(inputFile, "%d", &decimalNumber) == 1) {
+        decimalToBinary(decimalNumber, binaryFile);
+    }
+
+    fclose(inputFile);
+    fclose(binaryFile);
+
+    printf("Conversion completed successfully.\n");
+
     return 0;
 }
