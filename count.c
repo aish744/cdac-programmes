@@ -1,37 +1,46 @@
 #include<stdio.h>
 
-int main()
+void count(FILE* file)
 {
-    FILE* file= fopen("source","r");
-    int space=0;
     int vowel=0;
     int consonant=0;
-    char c;
+    int space=0;
+
+     char c;
 
     for (c=fgetc(file);c!=EOF;c=fgetc(file))
     {
         if(c== 'a'|| c=='e'|| c=='i'|| c=='o'|| c=='u' ||
             c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U')
         {
-            vowel++;
+            (vowel)++;
         }
         else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
         {
-            consonant++;
+            (consonant)++;
         }
          else if (c == ' ') {
-            space++;
+            (space)++;
         }
-        // if(c == " \n")
-        // {
-        //     space++;
-        // }
+        
     }
+    printf("vowels:%d\n",vowel);
+    printf("consonant:%d\n",consonant);
+    printf("space:%d\n",space);
+    
+}
+
+int main()
+{
+    
+    FILE* file=fopen("source","r");
+    // int vowel=0;
+    // int consonant=0;
+    // int space=0;
+    count(file);
     fclose(file);
-    printf("number of voweles are: %d \n",vowel);
-    printf("number of consatant are: %d \n",consonant);
-    printf("number of spaces are: %d \n",space);
-
+    // printf("vowels:%d",vowel);
+    // printf("consonant:%d",consonant);
+    // printf("space:%d",space);
     return 0;
-
 }
